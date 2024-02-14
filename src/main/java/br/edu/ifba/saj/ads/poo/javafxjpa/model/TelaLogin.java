@@ -22,33 +22,36 @@ public class TelaLogin extends Application {
     public TelaLogin() {
     }
 
-    public TelaLogin(@SuppressWarnings("exports") Stage stage) {
+    public TelaLogin(Stage stage) {
         this.primaryStage = stage;
     }
 
     @Override
-    public void start(@SuppressWarnings("exports") Stage primaryStage) {
+    public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
         exibirTelaLogin();
     }
 
     public void exibirTelaLogin() {
         Label tituloLabel = new Label("LOGIN");
-        tituloLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+        tituloLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;-fx-text-fill:white");
         Label subtituloLabel = new Label("PARA CONTINUAR FAÇA O LOGIN");
-        Label emailLabel = new Label("EMAIL");
-        TextField emailTextField = new TextField();
-        emailTextField.setPromptText("Digite seu email");
+        subtituloLabel.setStyle("-fx-text-fill:white");
+        Label CPFLabel = new Label("CPF");
+        CPFLabel.setStyle("-fx-text-fill:white");
+        TextField CPFTextField = new TextField();
+        CPFTextField.setPromptText("Digite seu CPF");
         Label senhaLabel = new Label("SENHA");
+        senhaLabel.setStyle("-fx-text-fill:white");
         PasswordField senhaTextField = new PasswordField();
         senhaTextField.setPromptText("Digite sua senha");
 
         Button entrarButton = new Button("ENTRAR");
         entrarButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
         entrarButton.setOnAction(e -> {
-            String email = emailTextField.getText();
+            String CPF = CPFTextField.getText();
             String senha = senhaTextField.getText();
-            if (autenticarUsuario(email, senha)) {
+            if (autenticarUsuario(CPF, senha)) {
                 abrirTelaPrincipal();
             } else {
                 exibirErro("Usuário ou senha incorretos.");
@@ -57,8 +60,13 @@ public class TelaLogin extends Application {
 
         Button esqueciSenhaButton = new Button("ESQUECI MINHA SENHA");
         esqueciSenhaButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
+
         Button criarContaButton = new Button("NÃO TEM UMA CONTA ?\nCLIQUE AQUI PARA CRIAR SUA CONTA");
         criarContaButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
+
+        Button voltarButton = new Button("Voltar");
+        voltarButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
+        voltarButton.setOnAction(e -> voltarParaTelaAnterior());
 
         esqueciSenhaButton.setOnAction(e -> exibirTelaEsqueciSenha());
         criarContaButton.setOnAction(e -> exibirTelaCadastro());
@@ -66,7 +74,7 @@ public class TelaLogin extends Application {
         VBox layoutLogin = new VBox(10);
         layoutLogin.setPadding(new Insets(20));
         layoutLogin.setBackground(new Background(new BackgroundFill(Color.BLUE, CornerRadii.EMPTY, Insets.EMPTY)));
-        layoutLogin.getChildren().addAll(tituloLabel, subtituloLabel, emailLabel, emailTextField, senhaLabel, senhaTextField, entrarButton, esqueciSenhaButton, criarContaButton);
+        layoutLogin.getChildren().addAll(tituloLabel, subtituloLabel, CPFLabel, CPFTextField, senhaLabel, senhaTextField, entrarButton, esqueciSenhaButton, criarContaButton, voltarButton);
 
         Scene sceneLogin = new Scene(layoutLogin, 500, 400);
 
@@ -76,7 +84,7 @@ public class TelaLogin extends Application {
     }
 
     private void abrirTelaPrincipal() {
-        TelaPrincipal telaPrincipal = new TelaPrincipal(primaryStage);
+        TelaMenuPrincipal telaPrincipal = new TelaMenuPrincipal(primaryStage);
         try {
             telaPrincipal.start(primaryStage);
         } catch (Exception e) {
@@ -85,7 +93,7 @@ public class TelaLogin extends Application {
         }
     }
 
-    private boolean autenticarUsuario(String email, String senha) {
+    private boolean autenticarUsuario(String CPF, String senha) {
         // autenticar o usuário no banco de dados
         return true;
     }
@@ -100,6 +108,17 @@ public class TelaLogin extends Application {
         telaEsqueciSenha.exibirTelaEsqueciSenha();
     }
 
+    private void voltarParaTelaAnterior() {
+        TelaInicial telaInicial = new TelaInicial();
+        Stage stage = new Stage(); 
+        try {
+            telaInicial.start(stage);
+            primaryStage.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     private void exibirErro(String mensagem) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erro");
@@ -108,7 +127,4 @@ public class TelaLogin extends Application {
         alert.showAndWait();
     }
 
-    public static void main(String[] args) {
-        launch(args);
-    }
 }

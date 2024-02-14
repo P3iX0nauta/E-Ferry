@@ -16,15 +16,17 @@ public class TelaEsqueciSenha {
 
     private Stage primaryStage;
 
-    public TelaEsqueciSenha(@SuppressWarnings("exports") Stage primaryStage) {
+    public TelaEsqueciSenha(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
     public void exibirTelaEsqueciSenha() {
         Label tituloLabel = new Label("Precisamos verificar\nsua identidade");
-        tituloLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+        tituloLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;-fx-text-fill:white;");
         Label subtituloLabel = new Label("Informe seu email para receber um link de verificação");
+        subtituloLabel.setStyle("-fx-text-fill: white;");
         Label emailLabel = new Label("EMAIL");
+        emailLabel.setStyle("-fx-text-fill:white");
         TextField emailTextField = new TextField();
         emailTextField.setPromptText("Digite seu email cadastrado");
         Button confirmarEmailButton = new Button("Confirmar Email");

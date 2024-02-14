@@ -17,40 +17,51 @@ import javafx.stage.Stage;
 import br.edu.ifba.saj.ads.poo.javafxjpa.Exceptions.NomeInvalidoException;
 import br.edu.ifba.saj.ads.poo.javafxjpa.Exceptions.SenhaCurtaException;
 import br.edu.ifba.saj.ads.poo.javafxjpa.Exceptions.SenhaNaoCorrespondeException;
+import br.edu.ifba.saj.ads.poo.javafxjpa.Exceptions.CPFInvalidoException;
 
 public class TelaCadastro {
 
     private Stage primaryStage;
 
-    public TelaCadastro(@SuppressWarnings("exports") Stage primaryStage) {
+    public TelaCadastro(Stage primaryStage) {
         this.primaryStage = primaryStage;
     }
 
     public void exibirTelaCadastro() {
         Label tituloLabel = new Label("SEJA BEM VINDO !");
         Label subLabel = new Label("Para começar, faça seu cadastro");
-        tituloLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold;");
+        tituloLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: white;");
+        subLabel.setStyle("-fx-text-fill: white;");
+        Label cpfLabel = new Label("CPF (Apenas Números)");
+        cpfLabel.setStyle("-fx-text-fill: white;");
+        TextField cpfTextField = new TextField();
+        cpfTextField.setPromptText("Digite apenas números");
         Label nomeLabel = new Label("NOME (APENAS CARACTERES)");
+        nomeLabel.setStyle("-fx-text-fill: white;");
         TextField nomeTextField = new TextField();
         nomeTextField.setPromptText("Digite seu nome");
         Label emailLabel = new Label("EMAIL");
+        emailLabel.setStyle("-fx-text-fill: white;");
         TextField emailTextField = new TextField();
         emailTextField.setPromptText("Digite seu email");
         Label senhaLabel = new Label("SENHA (MINÍMO 6 DÍGITOS)");
+        senhaLabel.setStyle("-fx-text-fill: white;");
         PasswordField senhaTextField = new PasswordField();
         senhaTextField.setPromptText("Digite sua senha");
         Label confirmarSenhaLabel = new Label("CONFIRME A SENHA");
+        confirmarSenhaLabel.setStyle("-fx-text-fill: white;");
         PasswordField confirmarSenhaTextField = new PasswordField();
         confirmarSenhaTextField.setPromptText("Digite novamente sua senha");
+        
 
         Button criarContaButton = new Button("CRIAR CONTA");
         criarContaButton.setStyle("-fx-background-color: black; -fx-text-fill: white;");
         criarContaButton.setOnAction(e -> {
             try {
-                verificarCampos(nomeTextField.getText(), emailTextField.getText(), senhaTextField.getText(), confirmarSenhaTextField.getText());
+                verificarCampos(nomeTextField.getText(), emailTextField.getText(), senhaTextField.getText(), confirmarSenhaTextField.getText(), cpfTextField.getText());
                 verificarSenhas(senhaTextField.getText(), confirmarSenhaTextField.getText());
                 exibirAvisoContaCriada();
-            } catch (NomeInvalidoException | SenhaCurtaException | SenhaNaoCorrespondeException ex) {
+            } catch (NomeInvalidoException | SenhaCurtaException | SenhaNaoCorrespondeException | CPFInvalidoException ex) {
                 exibirErro(ex.getMessage());
             }
         });
@@ -61,9 +72,9 @@ public class TelaCadastro {
         VBox layoutCadastro = new VBox(10);
         layoutCadastro.setPadding(new Insets(20));
         layoutCadastro.setBackground(new Background(new BackgroundFill(Color.BLUE, CornerRadii.EMPTY, Insets.EMPTY)));
-        layoutCadastro.getChildren().addAll(tituloLabel, subLabel, nomeLabel, nomeTextField, emailLabel, emailTextField, senhaLabel, senhaTextField, confirmarSenhaLabel, confirmarSenhaTextField, criarContaButton, voltarButton);
+        layoutCadastro.getChildren().addAll(tituloLabel, subLabel, cpfLabel, cpfTextField, nomeLabel, nomeTextField, emailLabel, emailTextField, senhaLabel, senhaTextField, confirmarSenhaLabel, confirmarSenhaTextField, criarContaButton, voltarButton);
 
-        Scene sceneCadastro = new Scene(layoutCadastro, 500, 450);
+        Scene sceneCadastro = new Scene(layoutCadastro, 500, 500);
 
         primaryStage.setScene(sceneCadastro);
         primaryStage.setTitle("Tela de Cadastro");
@@ -90,12 +101,18 @@ public class TelaCadastro {
         alert.showAndWait();
     }
 
-    private void verificarCampos(String nome, String email, String senha, String confirmarSenha) throws NomeInvalidoException, SenhaCurtaException {
+    private void verificarCampos(String nome, String email, String senha, String confirmarSenha, String cpf) throws NomeInvalidoException, SenhaCurtaException, CPFInvalidoException {
         if (!nome.matches("[a-zA-Z]+")) {
             throw new NomeInvalidoException("Nome inválido. Por favor, insira um nome válido contendo apenas letras.");
         }
         if (senha.length() < 6) {
             throw new SenhaCurtaException("A senha deve ter pelo menos 6 caracteres.");
+        }
+        if (!cpf.matches("[0-9]+")) {
+            throw new CPFInvalidoException("CPF inválido. Por favor, insira apenas números.");
+        }
+        if (cpf.length() != 11) {
+            throw new CPFInvalidoException("CPF inválido. Deve conter exatamente 11 dígitos.");
         }
     }
 

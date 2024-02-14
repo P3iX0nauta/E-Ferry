@@ -1,6 +1,6 @@
 package br.edu.ifba.saj.ads.poo.javafxjpa;
 
-import br.edu.ifba.saj.ads.poo.javafxjpa.model.TelaLogin;
+import br.edu.ifba.saj.ads.poo.javafxjpa.model.TelaInicial;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
@@ -11,9 +11,9 @@ public class App extends Application {
     }
 
     @Override
-    public void start(@SuppressWarnings("exports") Stage primaryStage) {
-        TelaLogin telaLogin = new TelaLogin();
-        telaLogin.start(primaryStage);
+    public void start(Stage primaryStage) throws Exception {
+        TelaInicial telaInicial = new TelaInicial();
+        telaInicial.start(primaryStage);
     }
 
 }
