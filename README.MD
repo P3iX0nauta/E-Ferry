@@ -1,5 +1,5 @@
 
-<img src="LogoProvisoria.png">
+<img src="target/classes/br/edu/ifba/saj/ads/poo/javafxjpa/assets=LogoProvisoria.png">
 
 # e-ferry
 
